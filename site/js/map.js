@@ -21,10 +21,56 @@ const map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.NavigationControl());
 
+// ======================================================
+// CHARGEMENT DES CHAPITRES
+// ======================================================
+
+async function chargerEtapes(){
+
+    ETAPES = await fetch("data/index.json")
+        .then(response => response.json());
+
+    afficherListeEtapes();
+
+}
+
+function afficherListeEtapes(){
+
+    const zone = document.getElementById("chapitres");
+
+    zone.innerHTML="";
+
+
+    ETAPES.forEach(etape=>{
+
+        const div=document.createElement("div");
+
+        div.className="chapitre";
+
+        div.dataset.id=etape.id;
+
+        div.innerHTML=etape.titre;
+
+
+        div.onclick=()=>{
+
+            chargerEtape(etape.id);
+
+        };
+
+
+        zone.appendChild(div);
+
+    });
+
+}
+
 
 // ======================================================
 // VARIABLES GLOBALES
 // ======================================================
+
+let ETAPES = [];
 
 const TRACES = {};
 
@@ -32,16 +78,18 @@ const panel = document.getElementById("bottom-panel");
 
 
 // ======================================================
-// CHARGEMENT DE LA CARTE
+// CHARGEMENT DE LA CARTE ET DES ETAPES
 // ======================================================
 
 map.on("load", async () => {
 
     console.log("Carte chargée");
+
+    await chargerEtapes();
+
     await initialiserTraces();
 
 });
-
 
 // ======================================================
 // CHARGEMENT DE TOUTES LES TRACES
@@ -344,7 +392,7 @@ async function afficherChapitre(id){
 
     const chapitre = await fetch(
 
-        `/data/${id}/chapitre.json`
+        `data/${id}/chapitre.json`
 
     )
     .then(response=>response.json());
@@ -407,7 +455,7 @@ function afficherPhotos(id,chapitre){
 
 
         img.src =
-            `/data/${id}/photos/${photo}`;
+            `data/${id}/photos/${photo}`;
 
 
 
