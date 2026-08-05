@@ -1,0 +1,224 @@
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+}
+
+#main{
+    display:flex;
+    height:100vh;
+}
+
+#sidebar{
+
+    width:300px;
+
+    background:#2b2116;
+
+    color:#f3e4c2;
+	
+	font-size: 20px;
+	
+	font-family:'Cormorant Garamond', serif;
+	
+    overflow-y:scroll;
+
+    box-shadow:
+        5px 0 15px rgba(0,0,0,.3);
+
+}
+
+#map{
+    flex:1;
+}
+
+#voyage-stats{
+    position:absolute;
+    
+    padding-left:20px;
+    
+    width:280px;
+    
+    background:#FFFFFF;
+    
+    color:black;
+    
+    left:0;
+
+    right:0;
+
+    bottom:0;
+    
+    font-weight: bold;
+    
+    overflow-y:auto;
+}
+
+#bottom-panel{
+
+    position:absolute;
+
+	background:#FFFFFF;
+	
+	font-size: 20px;
+	
+    left:300px;
+
+    right:0;
+
+    bottom:0;
+
+}
+
+#panel-handle{
+
+    width:80px;
+
+    height:8px;
+
+    background:#8b6b3f;
+
+    border-radius:5px;
+
+    margin:8px auto;
+
+    opacity:.7;
+
+    cursor:pointer;
+
+}
+
+#titreEtape{
+    margin: 0 0 10px 0;
+    font-family:'Cormorant Garamond', serif;
+    font-size:28px;
+    font-weight: bold;
+    
+}
+
+#panel-content{
+
+	padding : 10px; 
+	
+    padding-left :20px;
+
+    overflow-y:auto;
+
+    height:calc(100% - 30px);
+
+	font-family:'Cormorant Garamond', serif;
+
+    color:#3b2a16;
+}
+
+
+#galeriePhotos{
+
+    display:flex;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+}
+
+#galeriePhotos img{
+
+    height:80px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+}
+
+#lightbox{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.9);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:9999;
+
+}
+
+
+#lightbox img{
+
+    max-width:90%;
+
+    max-height:90%;
+
+    object-fit:contain;
+
+}
+
+
+#close{
+
+    position:absolute;
+
+    top:20px;
+
+    right:30px;
+
+    color:white;
+
+    font-size:45px;
+
+    cursor:pointer;
+
+    z-index:10000;
+
+}
+
+#bottom-panel{
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.25),
+            rgba(255,255,255,0.25)
+        ),
+        url("../assets/textures/ivory_paper.jpg");
+
+    background-size:cover;
+    background-position:center;
+
+}
+
+.panel-closed{
+
+    height:40px;
+
+}
+
+.panel-small{
+
+    height:220px;
+
+}
+
+.panel-large{
+
+    height:65vh;
+
+}
+
+
+.chapitre{
+    padding:20px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+    cursor:pointer;
+}
+
+.chapitre:hover{
+    background:#f1dd38;
+}
