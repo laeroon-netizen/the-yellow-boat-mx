@@ -1,0 +1,17 @@
+[
+    {
+        "id":"Etape_01",
+        "titre":"Morlaix - Tréguier",
+        "trace":"data/Etape_01/trace.geojson"
+    },
+    {
+        "id":"Etape_02",
+        "titre":"Tréguier - Roscoff",
+        "trace":"data/Etape_02/trace.geojson"
+    },
+    {
+        "id":"Etape_03",
+        "titre":"Tréguier - Roscoff",
+        "trace":"data/Etape_03/trace.geojson"
+    }
+]
