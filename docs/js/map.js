@@ -226,7 +226,7 @@ function afficherTrace(id){
 	map.setPaintProperty(id,"line-dasharray",[1,0]);
 
 	map.moveLayer(id);
-
+}
 
 }
 
