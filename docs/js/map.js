@@ -33,36 +33,26 @@ async function chargerEtapes(){
     afficherListeEtapes();
 
 }
-
-function afficherListeEtapes(){
+async function afficherListeEtapes() {
 
     const zone = document.getElementById("chapitres");
+    zone.innerHTML = "";
 
-    zone.innerHTML="";
+    for (const id of ETAPES) {
 
+        const chapitre = await fetch(`data/${id}/chapitre.json`)
+            .then(r => r.json());
 
-    ETAPES.forEach(etape=>{
+        const div = document.createElement("div");
 
-        const div=document.createElement("div");
+        div.className = "chapitre";
+        div.dataset.id = id;
+        div.textContent = chapitre.titre;
 
-        div.className="chapitre";
-
-        div.dataset.id=etape.id;
-
-        div.innerHTML=etape.titre;
-
-
-        div.onclick=()=>{
-
-            chargerEtape(etape.id);
-
-        };
-
+        div.onclick = () => chargerEtape(id);
 
         zone.appendChild(div);
-
-    });
-
+    }
 }
 
 

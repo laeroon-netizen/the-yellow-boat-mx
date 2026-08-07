@@ -3,7 +3,7 @@
     "resume": "",
     "date_depart": "2026-07-25T07:29:11.050000+00:00",
     "date_arrivee": "2026-07-25T17:27:22.180000+00:00",
-    "distance_navionics": "A renseigner sans guillemet",
+    "distance_navionics": 35,
     "distance_nm": 33.7,
     "duree_h": 9.97,
     "photos": [],
