@@ -215,8 +215,6 @@ function afficherTrace(id){
 
     });
 
-
-    // On met en avant l'étape sélectionnée
     map.setPaintProperty(id,"line-color","#FFD400");
 
     map.setPaintProperty(id,"line-width",5);
@@ -225,12 +223,9 @@ function afficherTrace(id){
 
     map.setPaintProperty(id,"line-dasharray",[1,0]);
 
-
-    // Passe au premier plan
     map.moveLayer(id);
 
 }
-
 
 
 // ======================================================
