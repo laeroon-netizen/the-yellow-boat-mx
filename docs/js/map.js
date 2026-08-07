@@ -202,31 +202,32 @@ async function chargerEtape(id){
 
 function afficherTrace(id){
 
+    // On remet toutes les traces en gris
+    ETAPES.forEach(etapeId=>{
 
-    ETAPES.forEach(id=>{
+        map.setPaintProperty(etapeId,"line-color","#888888");
 
-    map.setPaintProperty(id,"line-color","#888888");
+        map.setPaintProperty(etapeId,"line-width",2);
 
-    map.setPaintProperty(id,"line-width",2);
+        map.setPaintProperty(etapeId,"line-opacity",0.35);
 
-    map.setPaintProperty(id,"line-opacity",0.35);
+        map.setPaintProperty(etapeId,"line-dasharray",[2,2]);
 
-    map.setPaintProperty(id,"line-dasharray",[2,2]);
+    });
 
 
+    // On met en avant l'étape sélectionnée
+    map.setPaintProperty(id,"line-color","#FFD400");
 
-    // trace sélectionnée
+    map.setPaintProperty(id,"line-width",5);
 
-	map.setPaintProperty(id,"line-color","#FFD400");
+    map.setPaintProperty(id,"line-opacity",1);
 
-	map.setPaintProperty(id,"line-width",5);
+    map.setPaintProperty(id,"line-dasharray",[1,0]);
 
-	map.setPaintProperty(id,"line-opacity",1);
 
-	map.setPaintProperty(id,"line-dasharray",[1,0]);
-
-	map.moveLayer(id);
-}
+    // Passe au premier plan
+    map.moveLayer(id);
 
 }
 
