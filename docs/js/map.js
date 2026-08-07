@@ -30,15 +30,17 @@ async function chargerEtapes(){
     ETAPES = await fetch("data/index.json")
         .then(response => response.json());
 
-    afficherListeEtapes();
+    await afficherListeEtapes();
 
 }
 async function afficherListeEtapes() {
 
+
     const zone = document.getElementById("chapitres");
+
     zone.innerHTML = "";
 
-    for (const id of ETAPES) {
+    for(const id of ETAPES){
 
         const chapitre = await fetch(`data/${id}/chapitre.json`)
             .then(r => r.json());
@@ -46,12 +48,15 @@ async function afficherListeEtapes() {
         const div = document.createElement("div");
 
         div.className = "chapitre";
+
         div.dataset.id = id;
+
         div.textContent = chapitre.titre;
 
         div.onclick = () => chargerEtape(id);
 
         zone.appendChild(div);
+
     }
 }
 
@@ -90,19 +95,17 @@ async function initialiserTraces(){
     const bounds = new mapboxgl.LngLatBounds();
 
 
-    for(const etape of ETAPES){
+    for(const id of ETAPES){
 		
 
-        const geojson = await fetch(etape.trace)
-            .then(response => response.json());
+        const geojson = await fetch(`data/${id}/trace.geojson`)
+			.then(r => r.json());
 
-		console.log("TRACE CHARGEE :", etape.id);
-        // stockage local
-        TRACES[etape.id] = geojson;
+        TRACES[id] = geojson;
 
         // création source
 
-        map.addSource(etape.id, {
+        map.addSource(id, {
 
             type:"geojson",
 
@@ -114,11 +117,11 @@ async function initialiserTraces(){
 
         map.addLayer({
 
-            id:etape.id,
+            id:id,
 
             type:"line",
 
-            source:etape.id,
+            source:id,
 
             layout:{
 
@@ -200,106 +203,29 @@ async function chargerEtape(id){
 function afficherTrace(id){
 
 
-    ETAPES.forEach(etape=>{
+    ETAPES.forEach(id=>{
 
+    map.setPaintProperty(id,"line-color","#888888");
 
-        map.setPaintProperty(
+    map.setPaintProperty(id,"line-width",2);
 
-            etape.id,
+    map.setPaintProperty(id,"line-opacity",0.35);
 
-            "line-color",
-
-            "#888888"
-
-        );
-
-
-        map.setPaintProperty(
-
-            etape.id,
-
-            "line-width",
-
-            2
-
-        );
-
-
-        map.setPaintProperty(
-
-            etape.id,
-
-            "line-opacity",
-
-            0.35
-
-        );
-
-
-        map.setPaintProperty(
-
-            etape.id,
-
-            "line-dasharray",
-
-            [2,2]
-
-        );
-
-
-    });
+    map.setPaintProperty(id,"line-dasharray",[2,2]);
 
 
 
     // trace sélectionnée
 
-    map.setPaintProperty(
+	map.setPaintProperty(id,"line-color","#FFD400");
 
-        id,
+	map.setPaintProperty(id,"line-width",5);
 
-        "line-color",
+	map.setPaintProperty(id,"line-opacity",1);
 
-        "#FFD400"
+	map.setPaintProperty(id,"line-dasharray",[1,0]);
 
-    );
-
-
-    map.setPaintProperty(
-
-        id,
-
-        "line-width",
-
-        5
-
-    );
-
-
-    map.setPaintProperty(
-
-        id,
-
-        "line-opacity",
-
-        1
-
-    );
-
-
-    map.setPaintProperty(
-
-        id,
-
-        "line-dasharray",
-
-        [1,0]
-
-    );
-
-
-    // devant les autres
-
-    map.moveLayer(id);
+	map.moveLayer(id);
 
 
 }
