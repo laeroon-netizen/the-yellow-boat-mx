@@ -29,7 +29,7 @@ async function chargerEtapes(){
 
     ETAPES = await fetch("data/index.json")
         .then(response => response.json());
-
+	afficherStatsVoyage();
     await afficherListeEtapes();
 
 }
@@ -133,9 +133,9 @@ async function initialiserTraces(){
 
             paint:{
 
-                "line-color":"#888888",
+                "line-color":"#000000",
 
-                "line-width":2,
+                "line-width":4,
 
                 "line-opacity":0.45,
 
@@ -226,6 +226,7 @@ function afficherTrace(id){
     map.moveLayer(id);
 
 }
+
 
 
 // ======================================================
@@ -485,3 +486,31 @@ document.getElementById("panel-handle")
 
 
 });
+
+// ======================================================
+// AFFICHAGE DES STATISTIQUES GLOB DU VOYAGE
+// ======================================================
+
+async function afficherStatsVoyage(){
+
+    const distanceElement = document.getElementById("distanceTotale");
+    const nombreElement = document.getElementById("nombreEtapes");
+    const dureeElement = document.getElementById("dureeTotale");
+
+    let distanceTotale = 0;
+    let dureeTotale = 0;
+
+    nombreElement.textContent = ETAPES.length;
+
+    for(const id of ETAPES){
+
+        const chapitre = await fetch(`data/${id}/chapitre.json`)
+            .then(r => r.json());
+
+        distanceTotale += Number(chapitre.distance_nm) || 0;
+        dureeTotale += Number(chapitre.duree_h) || 0;
+    }
+
+    distanceElement.textContent = distanceTotale.toFixed(1);
+    dureeElement.textContent = dureeTotale.toFixed(2);
+}
