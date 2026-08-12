@@ -205,9 +205,9 @@ function afficherTrace(id){
     // On remet toutes les traces en gris
     ETAPES.forEach(etapeId=>{
 
-        map.setPaintProperty(etapeId,"line-color","#888888");
+        map.setPaintProperty(etapeId,"line-color","#000000");
 
-        map.setPaintProperty(etapeId,"line-width",2);
+        map.setPaintProperty(etapeId,"line-width",4);
 
         map.setPaintProperty(etapeId,"line-opacity",0.35);
 
@@ -389,41 +389,137 @@ function afficherPhotos(id,chapitre){
 }
 
 
-
 // ======================================================
-// LIGHTBOX
+// LIGHTBOX PHOTOS
 // ======================================================
-
 
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const closeLightbox = document.getElementById("close");
+const prevButton = document.getElementById("prev");
+const nextButton = document.getElementById("next");
+
+// Liste des photos de l'étape actuellement affichée
+let photosLightbox = [];
+
+// Index de la photo actuellement affichée
+let photoActuelle = 0;
 
 
-function ouvrirLightbox(image){
+// ======================================================
+// OUVRIR LE LIGHTBOX
+// ======================================================
 
-    lightbox.style.display="flex";
+function ouvrirLightbox(index){
 
-    lightboxImage.src=image;
+    if(!photosLightbox.length){
+        return;
+    }
 
+    photoActuelle = index;
+
+    afficherPhotoLightbox();
+
+    lightbox.style.display = "flex";
 }
 
+
+// ======================================================
+// AFFICHER LA PHOTO ACTUELLE
+// ======================================================
+
+function afficherPhotoLightbox(){
+
+    if(!photosLightbox.length){
+        return;
+    }
+
+    lightboxImage.src = photosLightbox[photoActuelle];
+}
+
+
+// ======================================================
+// PHOTO SUIVANTE
+// ======================================================
+
+function photoSuivante(){
+
+    if(!photosLightbox.length){
+        return;
+    }
+
+    photoActuelle++;
+
+    // Retour au début après la dernière photo
+    if(photoActuelle >= photosLightbox.length){
+        photoActuelle = 0;
+    }
+
+    afficherPhotoLightbox();
+}
+
+
+// ======================================================
+// PHOTO PRECEDENTE
+// ======================================================
+
+function photoPrecedente(){
+
+    if(!photosLightbox.length){
+        return;
+    }
+
+    photoActuelle--;
+
+    // Retour à la dernière photo avant la première
+    if(photoActuelle < 0){
+        photoActuelle = photosLightbox.length - 1;
+    }
+
+    afficherPhotoLightbox();
+}
+
+
+// ======================================================
+// FERMER LE LIGHTBOX
+// ======================================================
 
 function fermerLightbox(){
 
-    lightbox.style.display="none";
+    lightbox.style.display = "none";
 
-    lightboxImage.src="";
-
+    lightboxImage.src = "";
 }
 
 
-closeLightbox.onclick = fermerLightbox;
+// ======================================================
+// BOUTONS
+// ======================================================
+
+closeLightbox.addEventListener("click", fermerLightbox);
+
+prevButton.addEventListener("click", function(event){
+
+    event.stopPropagation();
+
+    photoPrecedente();
+
+});
+
+nextButton.addEventListener("click", function(event){
+
+    event.stopPropagation();
+
+    photoSuivante();
+
+});
 
 
-// clic en dehors de la photo pour fermer
+// ======================================================
+// CLIC EN DEHORS DE LA PHOTO
+// ======================================================
 
-lightbox.onclick = (event)=>{
+lightbox.addEventListener("click", function(event){
 
     if(event.target === lightbox){
 
@@ -431,7 +527,92 @@ lightbox.onclick = (event)=>{
 
     }
 
-};
+});
+
+
+// ======================================================
+// CLAVIER
+// ======================================================
+
+document.addEventListener("keydown", function(event){
+
+    // Si le lightbox est fermé, on ne fait rien
+    if(lightbox.style.display !== "flex"){
+        return;
+    }
+
+    if(event.key === "Escape"){
+
+        fermerLightbox();
+
+    }
+
+    else if(event.key === "ArrowLeft"){
+
+        photoPrecedente();
+
+    }
+
+    else if(event.key === "ArrowRight"){
+
+        photoSuivante();
+
+    }
+
+});
+
+
+// ======================================================
+// AFFICHAGE DES PHOTOS D'UNE ETAPE
+// ======================================================
+
+function afficherPhotos(id, chapitre){
+
+    const galerie =
+        document.getElementById("galeriePhotos");
+
+    galerie.innerHTML = "";
+
+    photosLightbox = [];
+
+
+    if(!chapitre.photos || chapitre.photos.length === 0){
+
+        return;
+
+    }
+
+
+    // Création des chemins des photos
+    chapitre.photos.forEach(photo => {
+
+        photosLightbox.push(
+            `data/${id}/photos/${photo}`
+        );
+
+    });
+
+
+    // Création des miniatures
+    photosLightbox.forEach((chemin, index) => {
+
+        const img = document.createElement("img");
+
+        img.src = chemin;
+
+        img.alt = `Photo ${index + 1}`;
+
+        img.addEventListener("click", function(){
+
+            ouvrirLightbox(index);
+
+        });
+
+        galerie.appendChild(img);
+
+    });
+
+}
 
 
 // ======================================================
