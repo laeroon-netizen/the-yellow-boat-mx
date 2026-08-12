@@ -29,7 +29,7 @@ async function chargerEtapes(){
 
     ETAPES = await fetch("data/index.json")
         .then(response => response.json());
-	0afficherStatsVoyage();
+	afficherStatsVoyage();
     await afficherListeEtapes();
 
 }
